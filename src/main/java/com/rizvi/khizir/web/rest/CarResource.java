@@ -20,6 +20,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import main.java.com.rizvi.khizir.service.mapper.DocumentMapper;
+
 /**
  * REST controller for managing {@link com.rizvi.khizir.domain.Car}.
  */
@@ -32,13 +34,16 @@ public class CarResource {
 
     private static final String ENTITY_NAME = "car";
 
+    private final DocumentMapper documentMapper;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final CarRepository carRepository;
 
-    public CarResource(CarRepository carRepository) {
+    public CarResource(CarRepository carRepository, DocumentMapper documentMapper) {
         this.carRepository = carRepository;
+        this.documentMapper = documentMapper;
     }
 
     /**
@@ -49,16 +54,21 @@ public class CarResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/cars")
-    public ResponseEntity<Car> createCar(@Valid @RequestBody Car car) throws URISyntaxException {
+    @Timed
+    public ResponseEntity<Car> createCar(@Valid @RequestPart Car car, @RequestPart List<MultipartFile> files) throws URISyntaxException, IOException {
         log.debug("REST request to save Car : {}", car);
         if (car.getId() != null) {
             throw new BadRequestAlertException("A new car cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        Set<Document> documents = documentMapper.multiPartFilesToDocuments(files);
+        documents.forEach(car::addDocument);
+
         Car result = carRepository.save(car);
-        return ResponseEntity.created(new URI("/api/cars/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
+            return ResponseEntity.created(new URI("/api/cars/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+}
 
     /**
      * {@code PUT  /cars} : Updates an existing car.

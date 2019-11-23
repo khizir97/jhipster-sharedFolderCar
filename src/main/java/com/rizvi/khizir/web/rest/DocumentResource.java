@@ -118,4 +118,16 @@ public class DocumentResource {
         documentRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/documents/{id}/$content")
+    @Timed
+    public ResponseEntity<byte[]> getDocumentContent(@PathVariable Long id) {
+        Document document = documentRepository.findOneById(id)
+            .orElseThrow(DocumentNotFoundException::new);
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(document.getMimeType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getTitle() + "\"")
+            .body(document.retrieveContent());
+}
 }

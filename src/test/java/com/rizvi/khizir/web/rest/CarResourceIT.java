@@ -4,6 +4,7 @@ import com.rizvi.khizir.SharedFolderCarApp;
 import com.rizvi.khizir.domain.Car;
 import com.rizvi.khizir.repository.CarRepository;
 import com.rizvi.khizir.web.rest.errors.ExceptionTranslator;
+import main.java.com.rizvi.khizir.service.mapper.DocumentMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ public class CarResourceIT {
     private static final String UPDATED_MODEL = "BBBBBBBBBB";
 
     @Autowired
+   private DocumentMapper documentMapper;
+
+    @Autowired
     private CarRepository carRepository;
 
     @Autowired
@@ -61,7 +65,7 @@ public class CarResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CarResource carResource = new CarResource(carRepository);
+        final CarResource carResource = new CarResource(carRepository, documentMapper);
         this.restCarMockMvc = MockMvcBuilders.standaloneSetup(carResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

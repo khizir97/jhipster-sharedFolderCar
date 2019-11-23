@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
-
+    @EntityGraph(attributePaths = "content")
+    Optional<Document> findOneById(Long id);
 }
