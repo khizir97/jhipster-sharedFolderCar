@@ -14,6 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "car")
+@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Car implements Serializable {
 
