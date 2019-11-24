@@ -1,26 +1,32 @@
 package com.rizvi.khizir.web.rest;
 
 import com.rizvi.khizir.domain.Car;
+import com.rizvi.khizir.domain.Document;
 import com.rizvi.khizir.repository.CarRepository;
 import com.rizvi.khizir.web.rest.errors.BadRequestAlertException;
+import com.rizvi.khizir.service.mapper.DocumentMapper;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.micrometer.core.annotation.Timed;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional; 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-
-import main.java.com.rizvi.khizir.service.mapper.DocumentMapper;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.rizvi.khizir.domain.Car}.
@@ -53,7 +59,7 @@ public class CarResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new car, or with status {@code 400 (Bad Request)} if the car has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/cars")
+    @PostMapping("/v2/cars")
     @Timed
     public ResponseEntity<Car> createCar(@Valid @RequestPart Car car, @RequestPart List<MultipartFile> files) throws URISyntaxException, IOException {
         log.debug("REST request to save Car : {}", car);
@@ -66,7 +72,7 @@ public class CarResource {
 
         Car result = carRepository.save(car);
             return ResponseEntity.created(new URI("/api/cars/" + result.getId()))
-                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, false, result.getId().toString(), applicationName))
                     .body(result);
 }
 

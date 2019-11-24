@@ -3,12 +3,17 @@ package com.rizvi.khizir.web.rest;
 import com.rizvi.khizir.domain.Document;
 import com.rizvi.khizir.repository.DocumentRepository;
 import com.rizvi.khizir.web.rest.errors.BadRequestAlertException;
+import com.rizvi.khizir.web.rest.errors.DocumentNotFoundException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.micrometer.core.annotation.Timed;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional; 
 import org.springframework.web.bind.annotation.*;

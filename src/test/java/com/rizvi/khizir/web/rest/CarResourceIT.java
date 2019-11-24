@@ -4,7 +4,7 @@ import com.rizvi.khizir.SharedFolderCarApp;
 import com.rizvi.khizir.domain.Car;
 import com.rizvi.khizir.repository.CarRepository;
 import com.rizvi.khizir.web.rest.errors.ExceptionTranslator;
-import main.java.com.rizvi.khizir.service.mapper.DocumentMapper;
+import com.rizvi.khizir.service.mapper.DocumentMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

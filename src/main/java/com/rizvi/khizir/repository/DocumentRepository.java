@@ -1,5 +1,8 @@
 package com.rizvi.khizir.repository;
 import com.rizvi.khizir.domain.Document;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

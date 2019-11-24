@@ -1,4 +1,4 @@
-package main.java.com.rizvi.khizir.service.mapper;
+package com.rizvi.khizir.service.mapper;
 
 import java.io.IOException;
 import java.util.List;

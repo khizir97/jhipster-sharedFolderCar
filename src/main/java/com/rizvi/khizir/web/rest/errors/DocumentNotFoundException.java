@@ -1,4 +1,4 @@
-package main.java.com.rizvi.khizir.web.rest.errors;
+package com.rizvi.khizir.web.rest.errors;
 
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;

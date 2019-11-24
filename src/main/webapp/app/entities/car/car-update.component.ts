@@ -14,6 +14,7 @@ import { CarService } from './car.service';
 })
 export class CarUpdateComponent implements OnInit {
   isSaving: boolean;
+  files: FileList;
 
   editForm = this.fb.group({
     id: [],
@@ -40,13 +41,17 @@ export class CarUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  handleFileInput(files: FileList) {
+    this.files = files;
+  }
+
   save() {
     this.isSaving = true;
     const car = this.createFromForm();
     if (car.id !== undefined) {
       this.subscribeToSaveResponse(this.carService.update(car));
     } else {
-      this.subscribeToSaveResponse(this.carService.create(car));
+      this.subscribeToSaveResponse(this.carService.createV2(car, this.files));
     }
   }
 

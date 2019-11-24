@@ -4,11 +4,16 @@
             <h2><span>Car</span> {{car.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
+            <dl class="row-md jh-entity-details" *ngFor="let document of car.documents">
                 <dt><span>Model</span></dt>
                 <dd>
                     <span>{{car.model}}</span>
                 </dd>
+                <dt>
+                    <span>
+                        <a (click)="downloadDocument(document)">{{document.title}}</a>
+                    </span>
+                </dt>
             </dl>
 
             <button type="submit"
